@@ -1,6 +1,5 @@
-#ifndef OPTION_H 
-#define OPTION_H
-
+#pragma once 
+using namespace std;
 
 class Option
 {
@@ -13,6 +12,4 @@ class Option
     private:
         double _expiry;
 
-}
-
-#endif /* OPTION_H */
+};
