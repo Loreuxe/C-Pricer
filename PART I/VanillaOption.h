@@ -10,11 +10,11 @@ enum class OptionType {
 };
 
 class VanillaOption : public Option{
-    using Option::Option;
     private : 
         double _strike;
         OptionType _optiontype;
-    public: 
-        VanillaOption(double expiry,double strike, OptionType optiontype);
-        const OptionType getOptionType();
+    public:
+        VanillaOption(double expiry, double strike);
+        virtual  OptionType GetOptionType() const = 0;
+        double GetStrike() const;
 };

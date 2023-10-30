@@ -5,9 +5,9 @@ class Option
 {
 
     public: 
-        Option(double expiry);
-        const double getExpiry() ;
-        virtual double payoff(double price);
+        explicit Option(double expiry);
+        const double GetExpiry() ;
+        virtual double payoff(double price) const = 0;
 
     private:
         double _expiry;

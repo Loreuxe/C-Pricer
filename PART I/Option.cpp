@@ -11,4 +11,3 @@ Option::Option(double expiry)
 const double Option::getExpiry(){
     return _expiry;
 }
-double Option::payoff(double price){}

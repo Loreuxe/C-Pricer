@@ -1,22 +1,12 @@
 #include "VanillaOption.h"
-
+#include "stdexcept"
 
 using namespace std;
 
 
-VanillaOption::VanillaOption(double expiry, double strike, OptionType optiontype){
+VanillaOption::VanillaOption(double expiry, double strike) : Option(expiry), _strike(strike) {
     
-    if(strike >= 0.0 && expiry >=0){
-
-        _strike = strike;
-        _optiontype = optiontype;
-        Option(expiry);
-
-    }
-    else{
-        cout<<"Arguments must be non negatives"<<endl;
-    }
+    if(_strike < 0.0){throw invalid_argument("Strike must be non negative");}
     
-
-
-};
+}
+double VanillaOption::GetStrike() const {return _strike;}
