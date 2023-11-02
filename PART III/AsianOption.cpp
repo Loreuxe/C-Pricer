@@ -15,3 +15,5 @@ double AsianOption::payoffPath(vector<double> past_prices) const {
 }
 
 bool AsianOption::isAsianOption() const { return true; }
+
+AsianOption::~AsianOption() {}
