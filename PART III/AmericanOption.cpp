@@ -3,7 +3,7 @@
 
 using namespace std;
 
-bool AmericanOption::isAmericanOption() const { return true; }
+OptionNature Option::GetOptionNature() const { return OptionNature::American; }
 
-AmericanOption::~AmericanOption() {}
+bool AmericanOption::isAmericanOption() const { return true; }
 

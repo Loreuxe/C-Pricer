@@ -3,6 +3,7 @@
 
 using namespace std;
 
+OptionNature Option::GetOptionNature() const { return OptionNature::Asian; }
 
 vector<double> AsianOption::getTimeSteps() const { return _time; }
 
@@ -15,5 +16,3 @@ double AsianOption::payoffPath(vector<double> past_prices) const {
 }
 
 bool AsianOption::isAsianOption() const { return true; }
-
-AsianOption::~AsianOption() {}
