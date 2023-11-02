@@ -1,7 +1,7 @@
 #pragma once
 #include "Option.h"
 #include <iostream>
-using namespace std;
+
 
 
 enum class OptionType {

@@ -1,5 +1,4 @@
 #include "CallOption.h"
-using namespace std;
 
 CallOption::CallOption(double expiry, double strike) : VanillaOption(expiry,strike){}
 OptionType CallOption::GetOptionType() const{ return OptionType::Call;}

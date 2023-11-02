@@ -1,7 +1,5 @@
 #pragma once
 #include "VanillaOption.h"
-#include <iostream>
-using namespace std;
 
 class CallOption : public VanillaOption {
 public:
