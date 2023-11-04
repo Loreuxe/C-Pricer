@@ -1,6 +1,10 @@
 #include "BinaryTree.h"
 #include "CRRpricer.h"
 #include "BlackScholesPricer.h"
+#include "DigitalPutOption.h"
+#include "DigitalCallOption.h"
+#include "VanillaPutOption.h"
+#include "VanillaCallOption.h"
 
 int main() {
     {
