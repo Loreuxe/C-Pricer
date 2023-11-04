@@ -1,7 +1,8 @@
 #include "AsianCallOption.h"
 using namespace std;
+#include <vector>
 
-AsianCallOption::AsianCallOption(vector<double> _time, double _strike) : AsianOption(_time) {}
+AsianCallOption::AsianCallOption(vector<double> time, double strike) : AsianOption(time, strike) {}
 
 OptionType AsianCallOption::GetOptionType() const { return OptionType::Call; }
 

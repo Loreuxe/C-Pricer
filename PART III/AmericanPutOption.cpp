@@ -1,7 +1,7 @@
-*#include "AmericanPutOption.h"
+#include "AmericanPutOption.h"
 using namespace std;
 
-AmericanPutOption::AmericanPutOption(double _strike) : _strike(strike) {}
+AmericanPutOption::AmericanPutOption(double expiry, double strike) : AmericanOption(expiry, strike) {}
 
 OptionType AmericanPutOption::GetOptionType() const { return OptionType::Put; }
 
@@ -12,4 +12,3 @@ double AmericanPutOption::payoff(double z) const {
 
 }
 
-double AmericanPutOption::GetStrike() const { return _strike; }

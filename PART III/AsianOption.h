@@ -1,6 +1,7 @@
 #pragma once
 #include "Option.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -14,10 +15,10 @@ class AsianOption : public Option {
         OptionType _optiontype;
         vector<double> _time;
     public:
-        AsianOption(vector<double> time);
+        AsianOption(vector<double> time, double strike);
+        OptionNature GetOptionNature() const override;
         virtual  OptionType GetOptionType() const = 0;
         virtual vector<double> getTimeSteps() const = 0;
         virtual bool isAsianOption() const = 0;
-        virtual ~AsianOption() {}
-        double payoffPath(vector<double> past_prices) const override;
+        double payoffPath(vector<double>& past_prices) const ;
 };

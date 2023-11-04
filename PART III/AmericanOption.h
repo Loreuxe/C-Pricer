@@ -11,9 +11,12 @@ enum class OptionType {
 
 class AmericanOption : public Option {
     private:
+        double _strike;
         OptionType _optiontype;
     public:
+        AmericanOption(double expiry, double strike);
         virtual  OptionType GetOptionType() const = 0;
+        OptionNature GetOptionNature() const override;
         virtual bool isAmericanOption() const = 0;
-        virtual ~AmericanOption() {}
+        double GetStrike() const;
 };

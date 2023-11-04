@@ -4,8 +4,6 @@
 using namespace std;
 
 class AsianPutOption : public AsianOption {
-    private:
-        double _strike;
     public:
         AsianPutOption(vector<double> time, double strike);
         OptionType GetOptionType() const override;

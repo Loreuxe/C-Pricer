@@ -1,7 +1,7 @@
 #include "AmericanCallOption.h"
 using namespace std;
 
-AmericanCallOption::AmericanCallOption(double _strike) : _strike(strike) {}
+AmericanCallOption::AmericanCallOption(double expiry, double strike) : AmericanOption(expiry, strike) {}
 
 OptionType AmericanCallOption::GetOptionType() const { return OptionType::Call; }
 
@@ -12,4 +12,3 @@ double AmericanCallOption::payoff(double z) const {
 
 }
 
-double AmericanCallOption::GetStrike() const { return _strike; }

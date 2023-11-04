@@ -1,6 +1,7 @@
 #pragma once
 #include "AsianOption.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class AsianCallOption : public AsianOption {
