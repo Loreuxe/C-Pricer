@@ -16,7 +16,7 @@ double BlackScholesPricer::operator()() const{
     double d1 = (log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt(T));
     double d2 = d1 - sigma * sqrt(T);
 
-    if (option->GetOptionNature() == OptionNature::Vanilla) {
+    if (option_->GetOptionNature() == OptionNature::Vanilla) {
         if (option_->GetOptionType() == OptionType::Call) {
             return S * std::erfc(-d1 / sqrt(2)) - K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
         }
@@ -25,7 +25,7 @@ double BlackScholesPricer::operator()() const{
         }
     }
 
-    else if (option->GetOptionNature() == OptionNature::Digital) {
+    else if (option_->GetOptionNature() == OptionNature::Digital) {
         if (option_->GetOptionType() == OptionType::Call) {
             return K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
         }
@@ -45,7 +45,7 @@ double BlackScholesPricer::delta() const {
 
     double d1 = (log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt(T));
 
-    if (option->GetOptionNature() == OptionNature::Vanilla) {
+    if (option_->GetOptionNature() == OptionNature::Vanilla) {
         if (option_->GetOptionType() == OptionType::Call) {
             return std::erfc(-d1 / sqrt(2));
         }
@@ -54,7 +54,7 @@ double BlackScholesPricer::delta() const {
         }
     }
 
-    else if (option->GetOptionNature() == OptionNature::Digital) {
+    else if (option_->GetOptionNature() == OptionNature::Digital) {
         if (option_->GetOptionType() == OptionType::Call) {
             return exp(-r * T) * std::erfc(-d1 / sqrt(2));
         }
