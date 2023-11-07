@@ -1,4 +1,4 @@
-#include "option.h"
+#include "Option.h"
 
 Option::Option(double expiry)
 {
@@ -7,5 +7,10 @@ Option::Option(double expiry)
 const double Option::GetExpiry(){
     return _expiry;
 }
+
+bool Option::isAmericanOption() { return false; }
+
+bool Option::isAsianOption() { return false; }
+
 
 Option::~Option() {}

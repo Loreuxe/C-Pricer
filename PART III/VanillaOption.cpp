@@ -1,6 +1,4 @@
 #include "VanillaOption.h"
-#include "stdexcept"
-
 using namespace std;
 
 OptionNature VanillaOption::GetOptionNature() const { return OptionNature::Vanilla; }

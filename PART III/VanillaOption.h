@@ -1,13 +1,7 @@
 #pragma once
 #include "Option.h"
-#include <iostream>
 
 
-
-enum class OptionType {
-    Call,
-    Put
-};
 
 class VanillaOption : public Option{
     private : 
