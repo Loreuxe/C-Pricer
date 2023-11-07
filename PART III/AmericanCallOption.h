@@ -1,6 +1,5 @@
 #pragma once
 #include "AmericanOption.h"
-#include <iostream>
 using namespace std;
 
 class AmericanCallOption : public AmericanOption {

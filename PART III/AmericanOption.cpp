@@ -1,6 +1,4 @@
 #include "AmericanOption.h"
-#include "stdexcept"
-
 using namespace std;
 
 AmericanOption::AmericanOption(double expiry, double strike) : Option(expiry), _strike(strike) {
@@ -11,6 +9,8 @@ AmericanOption::AmericanOption(double expiry, double strike) : Option(expiry), _
 
 OptionNature AmericanOption::GetOptionNature() const { return OptionNature::American; }
 
-bool AmericanOption::isAmericanOption() const { return true; }
+bool AmericanOption::isAmericanOption() {
+	if (GetOptionNature() == OptionNature::American) { return true; }
+}
 
 double AmericanOption::GetStrike() const { return _strike; }

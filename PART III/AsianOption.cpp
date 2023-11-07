@@ -1,18 +1,19 @@
 #include "AsianOption.h"
-#include "stdexcept"
-
 using namespace std;
+
+AsianOption::AsianOption(double expiry, vector<double> time, double strike) : Option(expiry), _time(time), _strike(strike) {
+
+	if (_strike < 0.0) { throw invalid_argument("Strike must be non negative"); }
+
+}
 
 OptionNature AsianOption::GetOptionNature() const { return OptionNature::Asian; }
 
 vector<double> AsianOption::getTimeSteps() const { return _time; }
 
-double AsianOption::payoffPath(vector<double>& past_prices) const {
-	double price = 0;
-	for (int i = 0; i < past_prices.size(); i++) {
-		price += past_prices[i];
-	}
-	return Option::payoff(price / past_prices.size());
-}
 
-bool AsianOption::isAsianOption() const { return true; }
+bool AsianOption::isAsianOption() { 
+	if (GetOptionNature() == OptionNature::Asian) { return true; }
+	}
+
+double AsianOption::GetStrike() const { return _strike; }
