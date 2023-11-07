@@ -1,5 +1,4 @@
 #include "DigitalOption.h"
-#include "stdexcept"
 
 OptionNature DigitalOption::GetOptionNature() const { return OptionNature::Digital; }
 
@@ -13,3 +12,5 @@ DigitalOption::DigitalOption(double expiry, double strike) : Option(expiry), _st
 const double DigitalOption::GetExpiry() {
     return _expiry;
 }
+
+double DigitalOption::GetStrike() const { return _strike; }

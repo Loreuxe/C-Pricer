@@ -1,10 +1,7 @@
 #pragma once 
 #include "Option.h"
 
-enum class OptionType {
-    Call,
-    Put
-};
+
 
 class DigitalOption : public Option{
     public:
