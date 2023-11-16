@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "../Cpp_projet_partie_3/PutOption.h"
 #include "CppUnitTest.h"
-
+// Premiere partie des tests unitaires. Attention aux inclusions de fichiers toutes n'ont pas marchés pour moi. 
+// Je n'ai donc pas pu vérifier Vanilla Option, reste good normalement
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace ppprojetpatie3Tests
