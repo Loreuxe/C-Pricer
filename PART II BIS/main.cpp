@@ -27,7 +27,7 @@ int main() {
             std::cout << "BlackScholesPricer price=" << pricer2() << ", delta=" << pricer2.delta() << std::endl;
             std::cout << std::endl;
 
-            int N(10);
+            int N(30);
             double U = exp(sigma * sqrt(T / N)) - 1.0;
             double D = exp(-sigma * sqrt(T / N)) - 1.0;
             double R = exp(r * T / N) - 1.0;
