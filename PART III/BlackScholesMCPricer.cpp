@@ -1,109 +1,119 @@
 #include "BlackScholesMCPricer.h"
+#include "BlackScholesPricer.h"
 #include <cmath>
+#include "stdexcept"
+using namespace std;
 
-
-BlackScholesMCPricer::BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility) : 
-	option_(option), initial_price_(initial_price), interest_rate_(interest_rate), volatility_(volatility)
-{
-	if (option_ == nullptr) { throw invalid_argument("Option must be initialize as it's a pointer"); }
+BlackScholesMCPricer::BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility) : option_(option), initial_price_(initial_price), interest_rate_(interest_rate), volatility_(volatility) {
+    if (option_ == nullptr) { throw invalid_argument("Option must be initialize as it's a pointer"); }
 }
 
-int BlackScholesMCPricer::getNbPaths() const {
-	return NbPaths;
+vector<double> BlackScholesMCPricer::generate(int nb_paths = 1) {
+    double S = initial_price_;
+    double K = option_->GetStrike();
+    double T = option_->GetExpiry();
+    double r = interest_rate_;
+    double sigma = volatility_;
+    vector<double> t;
+    vector<double> prices = { S };
+
+    NbPaths += nb_paths;
+
+    for (int i = 1; i <= nb_paths; i++) {
+        t.push_back(i / nb_paths);
+    }
+
+    if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
+        double z = MT::rand_norm();
+        double s = S * exp((r - 0.5 * pow(sigma, 2)) * 1 + sigma * sqrt(1) * z);
+
+        prices.push_back(s);
+        return prices;
+    }
+
+    else {
+        // vector<double> time = AsianOption::getTimeSteps();
+        for (int j = 1; j <= nb_paths; j++) {
+            double z = MT::rand_norm();
+            double s = prices[j - 1] * exp((r - 0.5 * pow(sigma, 2)) * (t[j] - t[j - 1]) + sigma * sqrt(t[j] - t[j - 1]) * z);
+            prices.push_back(s);
+        }
+        return prices; 
+    }
+
+    if (option_ -> GetOptionNature() == OptionNature::Vanilla) { current_estimate = exp(-r * T) * option_ -> payoff(prices[1]) / nb_paths; }
+
+    else { current_estimate = exp(-r * T) * option_->payoffPath(prices) / nb_paths; }
 }
 
-double BlackScholesMCPricer :: operator()() const
-{
-	if (NbPaths == 0)
-	{
-	throw std::invalid_argument("Paths must be different to 0");
-	}
-	else
-		return estimate_price / NbPaths;
-}
-
-vector<double> BlackScholesMCPricer::generate(int nb_paths = 1) const {
-	double S = initial_price_;
-	double K = option_->GetStrike();
-	double T = option_->GetExpiry();
-	double r = interest_rate_;
-	double sigma = volatility_;
-	vector<double> t;
-	vector<double> prices = { S };
-
-	NbPaths += nb_paths;
-
-	for (int i = 0; i < nb_paths; i++) {
-		t.push_back(i);
-	}
-
-	if (option_->GetOptionNature() == OptionNature::Vanilla) {
-		double z = MT::rand_norm();
-		double s = prices[0] * exp((r - 0.5 * pow(sigma, 2)) * 1 + sigma * sqrt(1) * z);
-
-		prices.push_back(s);
-		return prices;
-	}
-	double current_estimate = 0;
-	vector <double> premium;
-
-	if (option_->GetOptionNature() == OptionNature::Vanilla)
-	{
-		if (option_->GetOptionType() == OptionType::Call)
-		{
-
-		}
-	}
-	/*else if (option_->GetOptionNature() == OptionNature::Asian) {
-		vector<double> time = AsianOption::getTimeSteps();
-		for (int j = 1; j < nb_paths; j++) {
-			double z = MT::rand_norm();
-			double s = prices[j - 1] * exp((r - 0.5 * pow(sigma, 2)) * (t[j] - t[j - 1]) + sigma * sqrt(t[j] - t[j - 1]) * z);
-			prices.push_back(s);
-		}
-		return prices;
-	} */
-
+double BlackScholesMCPricer::operator()() const{
+    return current_estimate;
 }
 
 std::vector<double> BlackScholesMCPricer::confidenceInterval()
 {
-	
-	if (NbPaths == 0)
-	{
-		throw std::invalid_argument("Paths must be different to 0");
-	}
-	double mean = estimate_price / NbPaths;
-	double std = 0;
-	
-	// calcul des rendements 
-	list <double> rendement;
-	for (int i = 1; i < NbPaths; i++)
+    vector<double> ci;
 
-	{ rendement = (price(i) - price(i - 1)) / price(i - 1);	}
-	
-	
-	double ecart_carres = 0;
-	for (int i = 0; i < rendement.size(); i++)
-	{
-		int a = 0;
+    if (NbPaths == 0)
+    {
+        throw std::invalid_argument("Paths must be different to 0");
+    }
 
-		a = a + i;
+    double mean = 0;
+    double std = 0;
 
-		double moyenne = a / rendement.size();
+    for (int k = 1; k < NbPaths; k++) { //on démarre à 1 car prices[0] est le prix a t = 0
+        mean += prices[k];
+    }
+    mean = mean / prices.size();
 
-		double ecart_carres = 0;
+    //On veut l'ecart tye des prix ou la volatilité ???
 
-		ecart_carres = (moyenne - i) * (moyenne - i);
+    vector<double> rendements;
 
-	}
-	double ecartype = std::sqrt(ecart_carres / rendement.size() - 1);
-	
+    for (int i = 2; i < NbPaths; i++)
 
-	double lower_bound = mean - 1.96 * (ecartype / std::sqrt(NbPaths));
-	double upper_bound = mean + 1.96 * (ecartype / std::sqrt(NbPaths));
+    {
+        rendements.push_back((prices[i] - prices[i - 1]) / prices[i - 1]);
+    }
 
-	return { lower_bound, upper_bound };
+
+    double ecart_carres = 0;
+    for (int i = 0; i < rendements.size(); i++)
+    {
+        int a = 0;
+
+        a = a + i;
+
+        double moyenne = a / rendements.size();
+
+        double ecart_carres = 0;
+
+        ecart_carres = (moyenne - i) * (moyenne - i);
+
+    }
+    double ecartype = std::sqrt(ecart_carres / rendements.size() - 1);
+
+
+    double lower_bound = mean - 1.96 * (ecartype / std::sqrt(NbPaths));
+    double upper_bound = mean + 1.96 * (ecartype / std::sqrt(NbPaths));
+
+    ci = { lower_bound, upper_bound };
+    return ci;
 
 }
 
+
+BlackScholesMCPricer::~BlackScholesMCPricer()
+{
+    // Release any dynamically allocated memory
+    if (option_ != nullptr)
+    {
+        delete option_;
+        option_ = nullptr; // Set the pointer to null to prevent double deletion.
+    }
+}
+
+int BlackScholesMCPricer::getNbPaths() const{
+    return NbPaths;
+}

@@ -16,9 +16,9 @@ public:
     BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility);
     ~BlackScholesMCPricer();
     double operator()() const;
-    double current_estimate = 0.0;
+    
     int getNbPaths() const;
-    vector<double> generate(int nb_paths) const;
+    vector<double> generate(int nb_paths);
     vector<double> confidenceInterval();
 
 private:
@@ -27,5 +27,7 @@ private:
     double interest_rate_;
     double volatility_;
     int NbPaths;
+    vector<double> prices;
+    double current_estimate;
     
 };
