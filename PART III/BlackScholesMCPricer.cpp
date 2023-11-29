@@ -62,12 +62,12 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval()
     double mean = 0;
     double std = 0;
 
-    for (int k = 1; k < NbPaths; k++) { //on démarre à 1 car prices[0] est le prix a t = 0
+    for (int k = 1; k < NbPaths; k++) { //on dÃ©marre Ã  1 car prices[0] est le prix a t = 0
         mean += prices[k];
     }
     mean = mean / prices.size();
 
-    //On veut l'ecart tye des prix ou la volatilité ???
+    //On veut l'ecart tye des prix ou la volatilitÃ© ???
 
     vector<double> rendements;
 
@@ -79,11 +79,10 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval()
 
 
     double ecart_carres = 0;
+    int a = 0;
     for (int i = 0; i < rendements.size(); i++)
     {
-        int a = 0;
-
-        a = a + i;
+       a = a + i;
 
         double moyenne = a / rendements.size();
 
