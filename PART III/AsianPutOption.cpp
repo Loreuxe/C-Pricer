@@ -1,7 +1,7 @@
 #include "AsianPutOption.h"
 using namespace std;
 
-AsianPutOption::AsianPutOption(double expiry, vector<double> time, double strike) : AsianOption(expiry, time, strike) {}
+AsianPutOption::AsianPutOption(vector<double> time, double strike) : AsianOption(time), _strike(strike) {}
 
 OptionType AsianPutOption::GetOptionType() const { return OptionType::Put; }
 
@@ -16,3 +16,5 @@ double AsianPutOption::payoffPath(vector<double>& past_prices) const {
 	}
 	else { return 0.0; }
 }
+
+double AsianPutOption::GetStrike() const { return _strike; }

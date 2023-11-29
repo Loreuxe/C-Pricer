@@ -1,12 +1,12 @@
 #include "AsianCallOption.h"
 using namespace std;
 
-AsianCallOption::AsianCallOption(double expiry, vector<double> time, double strike) : AsianOption(expiry, time, strike) {}
+AsianCallOption::AsianCallOption(vector<double> time, double strike) : AsianOption(time), _strike(strike) {}
 
 
 OptionType AsianCallOption::GetOptionType() const { return OptionType::Call; }
 
-double AsianCallOption::payoffPath(vector<double>& past_prices) const {
+double AsianCallOption::payoffPath(vector<double>& past_prices) {
 	double price = 0;
 	for (int i = 0; i < past_prices.size(); i++) {
 		price += past_prices[i];
@@ -17,3 +17,4 @@ double AsianCallOption::payoffPath(vector<double>& past_prices) const {
 	else { return 0.0; }
 }
 
+double AsianCallOption::GetStrike() const { return _strike; }
