@@ -2,6 +2,7 @@
 #include "BinaryTree.h"
 #include <cmath>
 #include "Option.h"
+#include "BinaryTree.cpp"
 
 class CRRPricer {
 private:
