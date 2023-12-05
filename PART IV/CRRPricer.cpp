@@ -20,8 +20,8 @@ CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, doub
     tree.setDepth(depth);
     computeExerciseAmericanOption();
 }
-CRRPricer::CRRPricer(Option* o, int depth, double asset_price, double r, double volatility)
-    : option(o), N(depth), S0(asset_price), R(std::exp(r)), D(std::exp(-0.5 * r * volatility*volatility))
+CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, double volatility)
+    : option(option), N(depth), S0(asset_price), R(std::exp(r)), D(std::exp(-0.5 * r * volatility*volatility))
 {
     tree.setDepth(depth);
     computeExerciseAmericanOption();
