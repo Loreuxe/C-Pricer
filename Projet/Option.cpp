@@ -10,7 +10,7 @@ bool Option::isAsianOption() { return false; }
 double Option::payoffPath(std::vector<double> past_prices) const {
 	std::cout << "payoffPath in"<<std::endl;
 	double price = 0;
-	for (int i = 0; i < past_prices.size(); i++) {
+	for (size_t i = 0; i < past_prices.size(); i++) {
 		price += past_prices[i];
 	}
 

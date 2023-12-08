@@ -11,6 +11,7 @@ OptionNature AmericanOption::GetOptionNature() const { return OptionNature::Amer
 
 bool AmericanOption::isAmericanOption() {
 	if (GetOptionNature() == OptionNature::American) { return true; }
+    else {return false;}
 }
 
 double AmericanOption::GetExpiry() const {

@@ -35,6 +35,8 @@ double BlackScholesPricer::operator()() const{
         }
     }
 
+    else return 0.0;
+
 }
 
 double BlackScholesPricer::delta() const {
@@ -64,6 +66,8 @@ double BlackScholesPricer::delta() const {
             return exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
     }
+    
+    else return 0.0;
 }
 
 BlackScholesPricer::~BlackScholesPricer()

@@ -42,7 +42,7 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
             double z = MT::rand_norm();
             vector<double> prices = { S };
 
-            for (int j = 1; j < t.size(); j++) {
+            for (size_t j = 1; j < t.size(); j++) {
 
                 //cout << j << endl;
                 double z = MT::rand_norm();
@@ -58,7 +58,7 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
 
     }
     if (option_->GetOptionNature() == OptionNature::Asian) {
-        for (int i = 0; i<vect_sim.size(); i++) {
+        for (size_t i = 0; i<vect_sim.size(); i++) {
             current_estimate += option_->payoffPath(vect_sim[i]);
         }
         vector<double> t = option_->getTimeSteps();
@@ -66,7 +66,7 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
         cout << "current estimate : " << current_estimate << endl;
     }
     else {
-        for (int i = 0; i<vect_sim.size(); i++) {
+        for (size_t i = 0; i<vect_sim.size(); i++) {
             current_estimate += option_->payoff(vect_sim[i][0]);
         }
         current_estimate = exp(-r * T) * current_estimate / nb_paths;
@@ -95,12 +95,12 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval()
     double mean = 0;
     double std = 0;
 
-    for (int k = 1; k < NbPaths; k++) { //on démarre à 1 car prices[0] est le prix a t = 0
+    for (int k = 1; k < NbPaths; k++) { //on dï¿½marre ï¿½ 1 car prices[0] est le prix a t = 0
         mean += prices[k];
     }
     mean = mean / prices.size();
 
-    //On veut l'ecart type des prix ou la volatilité ???
+    //On veut l'ecart type des prix ou la volatilitï¿½ ???
 
     vector<double> rendements;
 
@@ -112,7 +112,7 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval()
 
 
     double ecart_carres = 0;
-    for (int i = 0; i < rendements.size(); i++)
+    for (size_t i = 0; i < rendements.size(); i++)
     {
         int a = 0;
 
@@ -142,7 +142,6 @@ BlackScholesMCPricer::~BlackScholesMCPricer()
     if (option_ != nullptr)
     {
         delete option_;
-        option_ = nullptr; // Set the pointer to null to prevent double deletion.
     }
 }
 

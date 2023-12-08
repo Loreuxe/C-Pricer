@@ -9,6 +9,7 @@ vector<double> AsianOption::getTimeSteps() const { return _time; }
 
 bool AsianOption::isAsianOption() {
 	if (GetOptionNature() == OptionNature::Asian) { return true; }
+	else {return false;}
 }
 
 double AsianOption::GetExpiry() const {
