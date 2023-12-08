@@ -18,19 +18,19 @@ double BlackScholesPricer::operator()() const{
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return S * std::erfc(-d1 / sqrt(2)) - K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
+            return S *(0.5* std::erfc(-d1 / sqrt(2))) - K * exp(-r * T) *(0.5* std::erfc(-d2 / sqrt(2)));
         }
         else {
-            return K * exp(-r * T) * std::erfc(d2 / sqrt(2)) - S * std::erfc(d1 / sqrt(2));
+            return K * exp(-r * T) *(0.5* std::erfc(d2 / sqrt(2))) - S *(0.5* std::erfc(d1 / sqrt(2)));
         }
     }
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
+            return K * exp(-r * T) *(0.5* std::erfc(-d2 / sqrt(2)));
         }
         else {
-            return K * exp(-r * T) * std::erfc(d2 / sqrt(2));
+            return K * exp(-r * T) *(0.5* std::erfc(d2 / sqrt(2)));
         }
         
     }
@@ -57,10 +57,10 @@ double BlackScholesPricer::delta() const {
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return exp(-r * T) * std::erfc(-d1 / sqrt(2));
+            return exp(-r * T) *(0.5 std::erfc(-d1 / sqrt(2)));
         }
         else {
-            return exp(-r * T) * std::erfc(d2 / sqrt(2));
+            return exp(-r * T) *(0.5 std::erfc(d2 / sqrt(2)));
         }
     }
 }
