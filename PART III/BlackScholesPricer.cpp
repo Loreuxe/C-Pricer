@@ -48,10 +48,10 @@ double BlackScholesPricer::delta() const {
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return std::erfc(-d1 / sqrt(2));
+            return (-0.5* std::erfc(-d1 / sqrt(2)));
         }
         else {
-            return -std::erfc(-d1 / sqrt(2));
+            return -(0.5*std::erfc(-d1 / sqrt(2)));
         }
     }
 
