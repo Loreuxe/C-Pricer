@@ -35,6 +35,6 @@ int main() {
 
         std::cout << "nb samples: " << pricer->getNbPaths() << std::endl;
         delete pricer;
-        delete opt_ptr;
+        //delete opt_ptr;
     }
 }
