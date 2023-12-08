@@ -3,8 +3,6 @@
 using namespace std;
 
 
-
-
 class AsianOption : public Option {
     private:
         OptionType _optiontype;
@@ -13,9 +11,9 @@ class AsianOption : public Option {
         AsianOption(vector<double> time);
         OptionNature GetOptionNature() const override;
         virtual  OptionType GetOptionType() const = 0;
-        vector<double> getTimeSteps();
+        vector<double> getTimeSteps() const override;
+        double GetExpiry() const override;
         double GetStrike() const;
         bool isAsianOption();
-        double payoffPath(vector<double>& past_prices) const;
 
 };

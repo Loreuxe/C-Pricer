@@ -9,7 +9,8 @@ class AsianCallOption : public AsianOption {
     public:
         AsianCallOption(vector<double> time, double strike);
         OptionType GetOptionType() const override;
-        double GetStrike() const;
-        double payoff(double price) const override;
-        double payoffPath(vector<double>& past_prices);
+
+        double GetStrike() const override;
+        double payoff(double price) const;
+        double payoffPath(vector<double> past_prices) const;
 };

@@ -14,20 +14,20 @@ public:
     friend class AsianOption;
     friend class VanillaOption;
     BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility);
-    ~BlackScholesMCPricer();
     double operator()() const;
     
     int getNbPaths() const;
-    vector<double> generate(int nb_paths);
+    void generate(int nb_paths);
     vector<double> confidenceInterval();
+    
 
 private:
     Option* option_;
     double initial_price_;
     double interest_rate_;
     double volatility_;
-    int NbPaths;
+    int NbPaths = 0;
     vector<double> prices;
-    double current_estimate;
+    double current_estimate  = 0;
     
 };

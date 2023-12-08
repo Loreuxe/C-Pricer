@@ -6,6 +6,7 @@ using namespace std;
 BlackScholesPricer::BlackScholesPricer(Option* option, double asset_price, double interest_rate, double volatility) : option_(option), asset_price_(asset_price), interest_rate_(interest_rate), volatility_(volatility){
     if(option_ == nullptr){throw invalid_argument("Option must be initialize as it's a pointer");}
 }
+
 double BlackScholesPricer::operator()() const{
     double S = asset_price_;
     double K = option_ -> GetStrike();
@@ -18,24 +19,26 @@ double BlackScholesPricer::operator()() const{
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return S *(0.5* std::erfc(-d1 / sqrt(2))) - K * exp(-r * T) *(0.5* std::erfc(-d2 / sqrt(2)));
+            return S * std::erfc(-d1 / sqrt(2)) - K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
         }
         else {
-            return K * exp(-r * T) *(0.5* std::erfc(d2 / sqrt(2))) - S *(0.5* std::erfc(d1 / sqrt(2)));
+            return K * exp(-r * T) * std::erfc(d2 / sqrt(2)) - S * std::erfc(d1 / sqrt(2));
         }
     }
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return K * exp(-r * T) *(0.5* std::erfc(-d2 / sqrt(2)));
+            return K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
         }
         else {
-            return K * exp(-r * T) *(0.5* std::erfc(d2 / sqrt(2)));
+            return K * exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
-        
     }
 
+    else return 0.0;
+
 }
+
 double BlackScholesPricer::delta() const {
     double S = asset_price_;
     double K = option_->GetStrike();
@@ -48,30 +51,23 @@ double BlackScholesPricer::delta() const {
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return (-0.5* std::erfc(-d1 / sqrt(2)));
+            return std::erfc(-d1 / sqrt(2));
         }
         else {
-            return -(0.5*std::erfc(-d1 / sqrt(2)));
+            return -std::erfc(-d1 / sqrt(2));
         }
     }
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return exp(-r * T) *(0.5 std::erfc(-d1 / sqrt(2)));
+            return exp(-r * T) * std::erfc(-d1 / sqrt(2));
         }
         else {
-            return exp(-r * T) *(0.5 std::erfc(d2 / sqrt(2)));
+            return exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
     }
+    
+    else return 0.0;
 }
 
-BlackScholesPricer::~BlackScholesPricer()
-{
-    // Release any dynamically allocated memory
-    if (option_ != nullptr)
-    {
-        delete option_;
-        option_ = nullptr; // Set the pointer to null to prevent double deletion.
-    }
-}
 
