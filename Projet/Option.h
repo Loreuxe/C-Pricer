@@ -1,4 +1,6 @@
-#pragma once 
+#ifndef OPTION_H
+#define OPTION_H
+
 #include <vector>
 #include <iostream>
 #include "stdexcept"
@@ -28,15 +30,14 @@ class Option
         virtual  OptionNature GetOptionNature() const = 0;
         virtual  OptionType GetOptionType() const = 0;
         virtual double GetExpiry() const = 0;
-        virtual ~Option();
         double payoffPath(std::vector<double> past_prices) const;
         virtual std::vector<double> getTimeSteps() const;
-
         bool isAsianOption();
         bool isAmericanOption();
-
-
+       
 
     private:
         OptionNature _optionnature;
 };
+
+#endif

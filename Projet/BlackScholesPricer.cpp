@@ -70,13 +70,4 @@ double BlackScholesPricer::delta() const {
     else return 0.0;
 }
 
-BlackScholesPricer::~BlackScholesPricer()
-{
-    // Release any dynamically allocated memory
-    if (option_ != nullptr)
-    {
-        delete option_;
-        option_ = nullptr; // Set the pointer to null to prevent double deletion.
-    }
-}
 

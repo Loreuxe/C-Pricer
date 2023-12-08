@@ -12,7 +12,7 @@ int main() {
     double S0(100.), K(101), T(5), r(0.01), sigma(0.1);
     CallOption opt1(T, K);
     PutOption opt2(T, K);
-    int N(5);
+    int N(150);
     double U = 0.05;
     double D = -0.045;
     double R = 0.01;

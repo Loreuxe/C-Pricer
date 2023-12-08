@@ -22,4 +22,3 @@ double Option::payoffPath(std::vector<double> past_prices) const {
 
 std::vector<double> Option::getTimeSteps() const { return std::vector<double> {0.0}; }
 
-Option::~Option() {}

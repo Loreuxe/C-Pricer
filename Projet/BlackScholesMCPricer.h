@@ -14,7 +14,6 @@ public:
     friend class AsianOption;
     friend class VanillaOption;
     BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility);
-    ~BlackScholesMCPricer();
     double operator()() const;
     
     int getNbPaths() const;

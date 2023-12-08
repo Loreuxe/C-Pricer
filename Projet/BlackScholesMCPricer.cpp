@@ -136,14 +136,6 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval()
 }
 
 
-BlackScholesMCPricer::~BlackScholesMCPricer()
-{
-    // Release any dynamically allocated memory
-    if (option_ != nullptr)
-    {
-        delete option_;
-    }
-}
 
 int BlackScholesMCPricer::getNbPaths() const{
     return NbPaths;

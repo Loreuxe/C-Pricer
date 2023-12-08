@@ -7,6 +7,5 @@ class AmericanCallOption : public AmericanOption {
         AmericanCallOption(double expiry, double strike);
         OptionType GetOptionType() const override;
         double payoff(double z) const override;
-        ~AmericanCallOption() = default;
 
 };

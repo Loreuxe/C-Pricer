@@ -6,5 +6,4 @@ class DigitalPutOption : public DigitalOption {
         DigitalPutOption(double expiry, double strike);
         OptionType GetOptionType() const override;
         double payoff(double z) const override;
-        ~DigitalPutOption() = default;
 };

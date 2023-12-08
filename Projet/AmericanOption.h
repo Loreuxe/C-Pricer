@@ -17,5 +17,4 @@ class AmericanOption : public Option {
         OptionNature GetOptionNature() const override;
         bool isAmericanOption();
         double GetStrike() const;
-        ~AmericanOption();
 };
