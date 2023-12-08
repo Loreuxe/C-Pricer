@@ -1,22 +1,21 @@
 #include <iostream>
-#include <string>
-#include <type_traits>
+
+#include <sstream>
+
 
 template <typename T>
-int getLength(T number) {
-    // Convert the number to a string
-    std::string numberString = std::to_string(number);
+int size_float(T num) {
+    std::ostringstream oss;
+    oss << num;
+    std::string str = oss.str();
 
-    // Remove trailing zeros after the decimal point (for floating-point numbers)
-    if constexpr (std::is_floating_point_v<T>) {
-        size_t found = numberString.find_last_not_of('0');
-        if (found != std::string::npos && numberString[found] == '.')
-            found--;
-
-        return static_cast<int>(found) + 1;
-    } else {  // For integer numbers
-        return static_cast<int>(numberString.size());
+    size_t dotPos = str.find('.');
+    if (dotPos != std::string::npos) {
+        size_t nonZeroPos = str.find_last_not_of('0');
+        if (nonZeroPos != std::string::npos && nonZeroPos > dotPos) {
+            str.erase(nonZeroPos + 1);
+        }
     }
+
+    return static_cast<int>(str.length());
 }
-
-

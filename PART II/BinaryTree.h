@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BinaryTree_H
+#define BinaryTree_H
+
 #include <vector>
 #include <iostream>
 #include <string>
@@ -40,3 +42,4 @@ int size_float(T num) {
 
     return str.length();
 }
+#endif

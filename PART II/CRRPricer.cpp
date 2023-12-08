@@ -14,7 +14,8 @@ CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, doub
     
 }
 double CRRPricer::get(int n, int i) {
-    return 0;
+    compute();
+    return tree.getNode(n, i);
         
 }
 
@@ -53,8 +54,7 @@ double CRRPricer::operator()(bool closed_form) {
         return H00;
     } else {
         
-        compute();
-        return tree.getNode(0, 0);
+        return get(0,0);
     }
 }
 

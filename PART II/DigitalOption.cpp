@@ -14,3 +14,4 @@ const double DigitalOption::GetExpiry() {
 }
 
 double DigitalOption::GetStrike() const { return _strike; }
+
