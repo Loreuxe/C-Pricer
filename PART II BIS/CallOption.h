@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CallOption_H
+#define CallOption_H
+
 #include "VanillaOption.h"
 
 class CallOption : public VanillaOption {
@@ -7,3 +9,5 @@ public:
     OptionType GetOptionType() const override;
     double payoff(double z) const override;
 };
+
+#endif

@@ -52,7 +52,7 @@ void BinaryTree<T>::display() const {
     std::cout << "/   \\ ";
         
     std::cout << std::endl;
-    for (row; row < _depth; row++) {
+    for (; row < _depth; row++) {
         for (int k = 0; k < 3 * (_depth - row)+1; k++)
             std::cout << " ";
         for (int col = 0; col <= row; col++) {

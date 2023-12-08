@@ -14,4 +14,5 @@ class VanillaOption : public Option{
         virtual OptionType GetOptionType() const = 0;
         OptionNature GetOptionNature() const override;
         double GetStrike() const;
+        ~VanillaOption();
 };

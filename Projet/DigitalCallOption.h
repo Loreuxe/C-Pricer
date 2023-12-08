@@ -6,4 +6,5 @@ class DigitalCallOption : public DigitalOption {
         DigitalCallOption(double expiry, double strike);
         OptionType GetOptionType() const override;
         double payoff(double z) const override;
+        ~DigitalCallOption() = default;
 };

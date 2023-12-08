@@ -13,4 +13,5 @@ class AsianCallOption : public AsianOption {
         double GetStrike() const override;
         double payoff(double price) const;
         double payoffPath(vector<double> past_prices) const;
+        ~AsianCallOption() = default;
 };

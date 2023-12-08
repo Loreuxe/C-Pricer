@@ -11,7 +11,7 @@ class DigitalOption : public Option{
         virtual double payoff(double price) const = 0;
         virtual  OptionType GetOptionType() const = 0;
         OptionNature GetOptionNature() const override;
-
+        ~DigitalOption();
     private:
         double _expiry;
         double _strike;

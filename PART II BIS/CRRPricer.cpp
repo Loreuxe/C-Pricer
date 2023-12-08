@@ -54,7 +54,7 @@ double CRRPricer::operator()(bool closed_form) {
         return H00;
     } else {
         
-        get(0,0);
+        return get(0,0);
     }
 }
 

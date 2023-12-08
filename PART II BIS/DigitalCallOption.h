@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DigitalCallOption_H
+#define DigitalCallOption_H
+
 #include "DigitalOption.h"
 
 class DigitalCallOption : public DigitalOption {
@@ -7,3 +9,4 @@ class DigitalCallOption : public DigitalOption {
         OptionType GetOptionType() const override;
         double payoff(double z) const override;
 };
+#endif

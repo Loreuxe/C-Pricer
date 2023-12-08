@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BlackScholesMCPricer_H
+#define BlackScholesMCPricer_H
+
 #include "VanillaOption.h"
 #include "DigitalOption.h"
 
@@ -22,3 +24,5 @@ class BlackScholesPricer{
         double volatility_;
 
 };
+
+#endif

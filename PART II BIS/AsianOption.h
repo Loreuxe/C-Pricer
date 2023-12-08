@@ -1,15 +1,16 @@
-#pragma once
+#ifndef AsianOption_H
+#define AsianOption_H
+
 #include "Option.h"
 using namespace std;
 
 
-
-
 class AsianOption : public Option {
     private:
-        double _strike;
+        
         OptionType _optiontype;
         vector<double> _time;
+        double _strike;
     public:
         AsianOption(double expiry, vector<double> time, double strike);
         OptionNature GetOptionNature() const override;
@@ -19,3 +20,5 @@ class AsianOption : public Option {
         bool isAsianOption();
         double payoffPath(vector<double>& past_prices) const ;
 };
+
+#endif // Asian_Option

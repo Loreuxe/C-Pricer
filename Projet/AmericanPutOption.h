@@ -7,4 +7,5 @@ class AmericanPutOption : public AmericanOption {
         AmericanPutOption(double expiry, double strike);
         OptionType GetOptionType() const override;
         double payoff(double z) const override;
+        ~AmericanPutOption() = default;
 };

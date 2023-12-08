@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef Option_H
+#define Option_H
 #include <vector>
 #include <iostream>
 #include "stdexcept"
@@ -39,3 +40,4 @@ class Option
         double _expiry;
         OptionNature _optionnature;
 };
+#endif

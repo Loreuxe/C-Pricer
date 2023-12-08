@@ -1,7 +1,6 @@
-#pragma once
+#ifndef VanillaOption_H
+#define VanillaOption_H
 #include "Option.h"
-
-
 
 class VanillaOption : public Option{
     private : 
@@ -13,3 +12,4 @@ class VanillaOption : public Option{
         OptionNature GetOptionNature() const override;
         double GetStrike() const;
 };
+#endif

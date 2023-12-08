@@ -15,5 +15,6 @@ class AsianOption : public Option {
         double GetExpiry() const override;
         double GetStrike() const;
         bool isAsianOption();
+        ~AsianOption();
 
 };

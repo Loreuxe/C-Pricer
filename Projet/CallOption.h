@@ -6,4 +6,5 @@ public:
     CallOption(double expiry, double strike);
     OptionType GetOptionType() const override;
     double payoff(double z) const override;
+    ~CallOption() = default;
 };

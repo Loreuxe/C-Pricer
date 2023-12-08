@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef DigitalOption_H
+#define DigitalOption_H
 #include "Option.h"
 
 
@@ -18,3 +19,4 @@ class DigitalOption : public Option{
         OptionType _optiontype;
 
 };
+#endif
