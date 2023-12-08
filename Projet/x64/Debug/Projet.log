@@ -1,0 +1,5 @@
+﻿  BlackScholesMCPricer.cpp
+C:\Users\nthom\OneDrive\Documents\ESILV\C++\Projet\BlackScholesMCPricer.cpp(121,24): warning C4244: 'initialisation' : conversion de 'unsigned __int64' en 'double', perte possible de données
+  main.cpp
+  Génération de code en cours...
+  Projet.vcxproj -> C:\Users\nthom\OneDrive\Documents\ESILV\C++\Projet\x64\Debug\Projet.exe
