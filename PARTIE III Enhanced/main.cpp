@@ -30,7 +30,7 @@ int main() {
     for (auto& opt_ptr : opt_ptrs) {
         pricer = new BlackScholesMCPricer(opt_ptr, S0, r, sigma);
         do {
-            pricer->generate(100);
+            pricer->generate(1000);
             ci = pricer->confidenceInterval();
         } while (ci[1] - ci[0] > 1e-2);
         std::cout << "nb samples: " << pricer->getNbPaths() << std::endl;

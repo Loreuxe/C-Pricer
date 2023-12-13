@@ -31,7 +31,7 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
 
         if (option_->GetOptionNature() == OptionNature::Asian) {
 
-            vector<double> t = option_->getTimeSteps(); //On veut chopper le fixing_dates du main.cpp
+            vector<double> t = option_->getTimeSteps();
 
             double z = MT::rand_norm();
             vector<double> prices = { S };
@@ -80,7 +80,7 @@ double BlackScholesMCPricer::operator()() const{
 std::vector<double> BlackScholesMCPricer::confidenceInterval()
 {
     vector<double> ci;
-
+    
     if (NbPaths == 0)
     {
         throw std::invalid_argument("Paths must be different to 0");
