@@ -10,7 +10,7 @@
 
 
 int main() {
-    double S0(95.), K(100.), T(0.5), r(0.02), sigma(0.2);
+    double S0(100), K(101), T(5), r(0.01), sigma(0.1);
     std::vector<Option*> opt_ptrs;
     opt_ptrs.push_back(new CallOption(T, K));
     opt_ptrs.push_back(new PutOption(T, K));
@@ -29,11 +29,12 @@ int main() {
 
     for (auto& opt_ptr : opt_ptrs) {
         pricer = new BlackScholesMCPricer(opt_ptr, S0, r, sigma);
-
-        pricer->generate(10);
-
-
+        do {
+            pricer->generate(10);
+            ci = pricer->confidenceInterval();
+        } while (ci[1] - ci[0] > 0.1);
         std::cout << "nb samples: " << pricer->getNbPaths() << std::endl;
+        std::cout << "price: " << (*pricer)() << std::endl << std::endl;
         delete pricer;
         delete opt_ptr;
     }

@@ -21,13 +21,17 @@ public:
     vector<double> confidenceInterval();
     
 
+    
+
 private:
     Option* option_;
     double initial_price_;
     double interest_rate_;
     double volatility_;
-    int NbPaths = 0;
+    int NbPaths = 1;
     vector<double> prices;
     double current_estimate  = 0;
+    double sum_payoff = 0;
+    double squared_payoff = 0;
     
 };

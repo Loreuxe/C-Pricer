@@ -5,6 +5,6 @@ PutOption::PutOption(double expiry, double strike) : VanillaOption(expiry, strik
 OptionType PutOption::GetOptionType() const{return OptionType::Put;}
 
 double PutOption::payoff(double z) const {
-    if (z >= GetStrike()){return GetStrike() - z;}
+    if (z <= GetStrike()) { return GetStrike() - z; }
     else{return 0.0;}
 }

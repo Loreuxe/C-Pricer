@@ -1,6 +1,6 @@
 #include "CRRPricer.h"
 #include "BinaryTree.cpp"
-
+#include <cmath>
 CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, double down, double interest_rate)
     : option(opt), N(depth), S0(asset_price), U(up), D(down), R(interest_rate)
 {
@@ -18,13 +18,13 @@ CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, doub
         throw std::invalid_argument(" Asian Option is not supported in this pricer");
     }
     tree.setDepth(depth);
-    computeExerciseAmericanOption();
+    compute();
 }
 CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, double volatility)
-    : option(option), N(depth), S0(asset_price), R(std::exp(r)), D(std::exp(-0.5 * r * volatility*volatility))
+    : option(option), N(depth), S0(asset_price), U(std::exp(r + (volatility*volatility)/2)*((option->GetExpiry()/N) + volatility * (sqrt(option->GetExpiry()/N))) - 1.0), D(std::exp(r + (volatility*volatility)/2)*((option->GetExpiry()/N) - volatility * (sqrt(option->GetExpiry()/N))) - 1.0)
 {
     tree.setDepth(depth);
-    computeExerciseAmericanOption();
+    compute();
 }
 
 bool CRRPricer::getExercise(int i, int j) {
@@ -50,7 +50,7 @@ double CRRPricer::get(int n, int i)
     
 }
 
-void CRRPricer::computeExerciseAmericanOption()
+void CRRPricer::compute()
 {
     for (int n = 0; n < N; n++)
     {
@@ -78,7 +78,7 @@ double CRRPricer::operator()(bool closed_form) {
         return H00;
     }
     else {
-        computeExerciseAmericanOption();
+        compute();
         return tree.getNode(0, 0);
     }
 

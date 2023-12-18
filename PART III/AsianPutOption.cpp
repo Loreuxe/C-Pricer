@@ -14,7 +14,7 @@ double AsianPutOption::payoffPath(vector<double>& past_prices) const {
 		price += past_prices[i];
 	}
 	if (price / past_prices.size() <= GetStrike()) {
-		return GetStrike() - price / past_prices.size();
+		return GetStrike() - (price / past_prices.size());
 	}
 	else { return 0.0; }
 }

@@ -1,15 +1,21 @@
 #include "MT.h"
 
-MT::MT(): generator(std::random_device{}()) {}
+MT::MT() : generator(std::random_device{}()) {}
 
-double MT::rand_unif()
-{
-	std::uniform_real_distribution<double>distriunif(0.0, 1.0);
-	return distriunif(generator);
+MT::~MT() {}
+
+MT& MT::seed() {
+	static MT seed;
+	return seed;
 }
 
-double MT::rand_norm()
-{
-	std::normal_distribution<double>distrinorm(0,1.0);
-	return distrinorm(generator);
+double MT::rand_unif() {
+	std::uniform_real_distribution<double> distribution(0.0, 1.0);
+	return distribution(seed().generator);
+
+}
+
+double  MT::rand_norm() {
+	std::normal_distribution<double> distribution(0.0, 1.0);
+	return distribution(seed().generator);
 }

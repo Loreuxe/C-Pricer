@@ -9,7 +9,6 @@ AsianCallOption::AsianCallOption(vector<double> time, double strike) : AsianOpti
 OptionType AsianCallOption::GetOptionType() const { return OptionType::Call; }
 
 double AsianCallOption::payoffPath(vector<double> past_prices) const {
-	cout << "payoffPath in";
 	double price = 0;
 	for (size_t i = 0; i < past_prices.size(); i++) {
 		price += past_prices[i];

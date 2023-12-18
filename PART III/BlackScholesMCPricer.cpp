@@ -4,6 +4,7 @@
 #include "stdexcept"
 using namespace std;
 
+
 BlackScholesMCPricer::BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility) : option_(option), initial_price_(initial_price), interest_rate_(interest_rate), volatility_(volatility) {}
 
 
@@ -13,64 +14,52 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
     double T = option_ -> GetExpiry();
     double r = interest_rate_;
     double sigma = volatility_;
+    vector<vector<double>> sim_prices;
     
 
     NbPaths += nb_paths;
 
-    std::vector<std::vector<double>> vect_sim;
-
     for (int k = 0; k < nb_paths; k++) {
 
         if (option_->GetOptionNature() == OptionNature::Vanilla || option_->GetOptionNature() == OptionNature::Digital) {
-            cout << "check Vanilla or Digital" << endl;
-
             double z = MT::rand_norm();
-            double s = S * exp((r - 0.5 * pow(sigma, 2)) * 1 + sigma * sqrt(1) * z);
-            cout << s << endl;
-            vector<double> v = { s };
-            vect_sim.push_back(v);
-            //current_estimate = exp(-r * T) * option_->payoff(s) / nb_paths;
-            //cout << "current estimate : " << current_estimate << endl;
+            double s = S * exp((r - 0.5 * pow(sigma, 2)) * T + sigma * sqrt(T) * z);
+            sim_prices.push_back(vector<double> {s});
 
         }
 
-        if (option_->GetOptionNature() == OptionNature::Asian) {
-            cout << "check Asian" << endl;
-
-            vector<double> t = option_->getTimeSteps(); //On veut chopper le fixing_dates du main.cpp
-
+        else {
             double z = MT::rand_norm();
-            vector<double> prices = { S };
-
-            for (size_t j = 1; j < t.size(); j++) {
-
-                //cout << j << endl;
+            vector<double> t = option_->getTimeSteps();
+            vector<double> prices = { S * exp((r - 0.5 * pow(sigma, 2)) * t[0] + sigma * sqrt(t[0]) * z) };
+            for (int j = 1; j < t.size(); j++) {
                 double z = MT::rand_norm();
                 double s = prices[j - 1] * exp((r - 0.5 * pow(sigma, 2)) * (t[j] - t[j - 1]) + sigma * sqrt(t[j] - t[j - 1]) * z);
                 prices.push_back(s);
-                //cout << s << endl;
-
             }
-            vect_sim.push_back(prices);
-
-            
+            sim_prices.push_back(prices);
         }
-
     }
+    
+
     if (option_->GetOptionNature() == OptionNature::Asian) {
-        for (size_t i = 0; i<vect_sim.size(); i++) {
-            current_estimate += option_->payoffPath(vect_sim[i]);
+        for (int k = 0; k < nb_paths; k++) {
+            sum_payoff += option_->payoffPath(sim_prices[k]);
+            squared_payoff += pow(option_->payoffPath(sim_prices[k]), 2);
         }
+        
         vector<double> t = option_->getTimeSteps();
-        current_estimate = exp(-r * t[t.size() - 1]) * current_estimate / nb_paths;
-        cout << "current estimate : " << current_estimate << endl;
+        current_estimate = exp(-r * t[t.size() - 1]) * sum_payoff / NbPaths;
     }
+
     else {
-        for (size_t i = 0; i<vect_sim.size(); i++) {
-            current_estimate += option_->payoff(vect_sim[i][0]);
+        for (int k = 0; k < nb_paths; k++){
+            
+            sum_payoff += option_->payoff(sim_prices[k][0]);
+            squared_payoff += pow(option_->payoff(sim_prices[k][0]), 2);
         }
-        current_estimate = exp(-r * T) * current_estimate / nb_paths;
-        cout << "current estimate : " << current_estimate << endl;
+        
+        current_estimate = exp(-r * T) * sum_payoff / NbPaths;
 
     }
     
@@ -83,55 +72,22 @@ double BlackScholesMCPricer::operator()() const{
 }
 
 
+
 std::vector<double> BlackScholesMCPricer::confidenceInterval()
 {
-    vector<double> ci;
 
-    if (NbPaths == 0)
-    {
+    if (NbPaths == 0){
         throw std::invalid_argument("Paths must be different to 0");
     }
 
-    double mean = 0;
-    double std = 0;
-
-    for (int k = 1; k < NbPaths; k++) { //on d�marre � 1 car prices[0] est le prix a t = 0
-        mean += prices[k];
-    }
-    mean = mean / prices.size();
-
-    //On veut l'ecart type des prix ou la volatilit� ???
-
-    vector<double> rendements;
-
-    for (int i = 2; i < NbPaths; i++)
-
-    {
-        rendements.push_back((prices[i] - prices[i - 1]) / prices[i - 1]);
-    }
-
-
-    double ecart_carres = 0;
-    for (size_t i = 0; i < rendements.size(); i++)
-    {
-        int a = 0;
-
-        a = a + i;
-
-        double moyenne = a / rendements.size();
-
-        double ecart_carres = 0;
-
-        ecart_carres = (moyenne - i) * (moyenne - i);
+    else {
+        double var = (squared_payoff / NbPaths) - pow(sum_payoff / NbPaths, 2);
+        double lower_bound = current_estimate - 1.96 * sqrt(var / NbPaths);
+        double upper_bound = current_estimate + 1.96 * sqrt(var / NbPaths);
+        vector<double> ci = { lower_bound, upper_bound };
+        return ci;
 
     }
-    double ecartype = std::sqrt(ecart_carres / rendements.size() - 1);
-
-    double lower_bound = mean - 1.96 * (ecartype / std::sqrt(NbPaths));
-    double upper_bound = mean + 1.96 * (ecartype / std::sqrt(NbPaths));
-
-    ci = { lower_bound, upper_bound };
-    return ci;
 
 }
 
