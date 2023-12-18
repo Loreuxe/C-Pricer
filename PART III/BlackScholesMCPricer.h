@@ -1,3 +1,5 @@
+#ifndef BlackScholesMCPricer_H
+#define BlackScholesMCPricer_H
 #include "AmericanOption.h"
 #include "AsianOption.h"
 #include "VanillaOption.h"
@@ -35,3 +37,5 @@ private:
     double squared_payoff = 0;
     
 };
+
+#endif// BlackScholesMCPricer_H

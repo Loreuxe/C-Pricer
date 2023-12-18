@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AmericanCallOption_H
+#define AmericanCallOption_H
 #include "AmericanOption.h"
 using namespace std;
 
@@ -9,3 +10,5 @@ class AmericanCallOption : public AmericanOption {
         double payoff(double z) const override;
 
 };
+
+#endif // AmericanCallOption_H

@@ -1,3 +1,6 @@
+#ifndef BlackScholesPricer_H
+#define BlackScholesPricer_H
+
 #include "VanillaOption.h"
 #include "DigitalOption.h"
 
@@ -20,3 +23,4 @@ class BlackScholesPricer{
         double volatility_;
 
 };
+#endif // BlackScholesPricer_H

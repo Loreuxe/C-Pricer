@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MT_H
+#define MT_H
 #include <random>
 
 class MT {
@@ -17,3 +18,4 @@ public:
 	static double rand_norm();
 
 };
+#endif // MT_H

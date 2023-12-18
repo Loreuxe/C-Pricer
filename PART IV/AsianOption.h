@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AsianOption_H
+#define AsianOption_H
+
 #include "Option.h"
 using namespace std;
 
@@ -17,3 +19,5 @@ class AsianOption : public Option {
         bool isAsianOption();
 
 };
+
+#endif // AsianOption_H

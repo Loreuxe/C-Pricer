@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AsianCallOption_H
+#define AsianCallOption_H
 #include "AsianOption.h"
 using namespace std;
 
@@ -14,3 +15,5 @@ class AsianCallOption : public AsianOption {
         double payoff(double price) const;
         double payoffPath(vector<double> past_prices) const;
 };
+
+#endif // AsianCallOption_H

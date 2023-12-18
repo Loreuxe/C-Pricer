@@ -1,7 +1,10 @@
-#pragma once
+#ifndef BinaryTree_H
+#define BinaryTree_H
+
 #include <vector>
 #include <iostream>
 #include <string>
+
 template <class T>
 class BinaryTree {
     private:
@@ -18,4 +21,6 @@ class BinaryTree {
         T getNode(int , int ) const;
         ~BinaryTree() = default;
         void display() const;
-        };
+};
+#endif // BinaryTree_H
+    

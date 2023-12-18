@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AmericanOption_H
+#define AmericanOption_H
 #include "Option.h"
 using namespace std;
 
@@ -18,3 +19,5 @@ class AmericanOption : public Option {
         bool isAmericanOption();
         double GetStrike() const;
 };
+
+#endif // AmericanOption_H

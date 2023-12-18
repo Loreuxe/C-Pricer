@@ -10,7 +10,7 @@ BlackScholesMCPricer::BlackScholesMCPricer(Option* option, double initial_price,
 
 void BlackScholesMCPricer::generate(int nb_paths = 1) {
     double S = initial_price_;
-    double K = option_ -> GetStrike();
+    // double K = option_ -> GetStrike(); Ligne inutile car on regarde NbPath pour le prix de l'option 
     double T = option_ -> GetExpiry();
     double r = interest_rate_;
     double sigma = volatility_;
@@ -32,7 +32,7 @@ void BlackScholesMCPricer::generate(int nb_paths = 1) {
             double z = MT::rand_norm();
             vector<double> t = option_->getTimeSteps();
             vector<double> prices = { S * exp((r - 0.5 * pow(sigma, 2)) * t[0] + sigma * sqrt(t[0]) * z) };
-            for (int j = 1; j < t.size(); j++) {
+            for (size_t j = 1; j < t.size(); j++) {
                 double z = MT::rand_norm();
                 double s = prices[j - 1] * exp((r - 0.5 * pow(sigma, 2)) * (t[j] - t[j - 1]) + sigma * sqrt(t[j] - t[j - 1]) * z);
                 prices.push_back(s);

@@ -40,4 +40,4 @@ class Option
         OptionNature _optionnature;
 };
 
-#endif
+#endif // Option_H

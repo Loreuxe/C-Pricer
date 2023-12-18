@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CRRPricer_H
+#define CRRPricer_H
 #include "BinaryTree.h"
 #include <cmath>
 #include "Option.h"
@@ -20,3 +21,5 @@ public:
 
     ~CRRPricer() = default;
 };
+
+#endif // CRRPricer_H
