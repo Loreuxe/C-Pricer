@@ -1,5 +1,4 @@
 #include "CRRPricer.h"
-#include "BinaryTree.cpp"
 
 CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, double down, double interest_rate)
     : option(opt), N(depth), S0(asset_price), U(up), D(down), R(interest_rate) {
@@ -11,7 +10,17 @@ CRRPricer::CRRPricer(Option* opt, int depth, double asset_price, double up, doub
         std::cerr << "Invalid parameters." << std::endl;
         throw std::runtime_error("Invalid parameters.");
     }
-    tree.setDepth(depth);
+    else if (option->isAsianOption())
+    {
+        throw std::invalid_argument("Asian Option");
+    }
+    else if (option->isAmericanOption())
+    {
+        exerciseTree.setDepth(N);
+    }
+    
+        
+    
 }
 
 CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, double volatility)
@@ -36,49 +45,67 @@ CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, do
     else if (option->isAmericanOption()) {
         exerciseTree.setDepth(N);
     }
-    tree.setDepth(N);
+    
+}
+
+
+
+
+
+double CRRPricer::get(int n, int i) {
+    compute();
+    return tree.getNode(n, i);
+        
 }
 
 bool CRRPricer::getExercise(int i, int j) {
+    compute();
     return exerciseTree.getNode(i, j);
 }
 
-    
-double CRRPricer::get(int n, int i) 
-{
-    if (getExercise(n, i))
-    {
-        double q = (R - D) / (U - D);
+void CRRPricer::compute() {
+    double q = (R - D) / (U - D);
+    tree.setDepth(N);
+    for (int i = 0; i <= N; i++) {
         double up_factor = std::pow(U + 1, i);
         double down_factor = std::pow(D + 1, N - i);
         double stock_price = S0 * up_factor * down_factor;
-
+        tree.setNode(N, i, option->payoff(stock_price));
         
-        double intrinsic_value = option->payoff(stock_price);
-        double continuous_value = (q * tree.getNode(n + 1, i + 1) + (1 - q) * tree.getNode(n + 1, i)) / (1 + R);
-
-        return intrinsic_value >= continuous_value;
-
     }
-    else
+    if (option->isAmericanOption())
     {
-        double q = (R - D) / (U - D);
-        return (q * get(n + 1, i + 1) + (1 - q) * get(n + 1, i)) / (1 + R);
-    }   
+        for (int i = N - 1; i >= 0; i--){
+            for (int j = 0; j <= i; ++j){
+                double up_factor = std::pow(U + 1, j);
+                double down_factor = std::pow(D + 1, i - j);
+                double stock_price = S0 * up_factor * down_factor;
+                double value = (q * get(i + 1, j + 1) + (1 - q) * get(i + 1, j)) / (1 + R);
+                tree.setNode(i, j, std::max(value, option-> payoff(stock_price)));
+                if (value <= option->payoff(stock_price))
+                {
+                    exerciseTree.setNode(i, j, true);
+                }
+                else
+                {
+                    exerciseTree.setNode(i, j, false);
+                }
+            }
+        }
+    }
+    else{
+        
+        for (int n = N-1; n >=0; n--) {
+            for (int i = 0; i <=n; i++) {
+                tree.setNode(n, i, (q* tree.getNode(n + 1, i + 1) + (1 - q) * tree.getNode(n + 1, i) )/ (1 + R));
+            }
+        }   
+        
+    }
     
 }
 
-void CRRPricer::compute()
-{
-    for (int n = 0; n < N; n++)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            tree.setNode(n,i,get(n,i));
-        }
-    }
-        
-}
+
 
 double CRRPricer::operator()(bool closed_form) {
     if (closed_form) {
@@ -94,13 +121,10 @@ double CRRPricer::operator()(bool closed_form) {
 
         H00 = H00 * (1 / pow(1 + R, N));
         return H00;
+    } else {
+        
+        return get(0,0);
     }
-    else {
-        compute();
-        return tree.getNode(0, 0);
-    }
-
-
 }
 
 

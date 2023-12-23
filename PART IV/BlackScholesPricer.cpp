@@ -63,7 +63,7 @@ double BlackScholesPricer::delta() const {
             return exp(-r * T) * std::erfc(-d1 / sqrt(2));
         }
         else {
-            return exp(-r * T) * std::erfc(d2 / sqrt(2));
+            return -exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
     }
     
