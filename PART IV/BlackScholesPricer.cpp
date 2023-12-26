@@ -19,19 +19,19 @@ double BlackScholesPricer::operator()() const{
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return S * std::erfc(-d1 / sqrt(2)) - K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
+            return 0.5 * (S * std::erfc(-d1 / sqrt(2)) - K * exp(-r * T) * std::erfc(-d2 / sqrt(2)));
         }
         else {
-            return K * exp(-r * T) * std::erfc(d2 / sqrt(2)) - S * std::erfc(d1 / sqrt(2));
+            return 0.5 * (K * exp(-r * T) * std::erfc(d2 / sqrt(2)) - S * std::erfc(d1 / sqrt(2)));
         }
     }
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return K * exp(-r * T) * std::erfc(-d2 / sqrt(2));
+            return 0.5  * exp(-r * T) * std::erfc(-d2 / sqrt(2));
         }
         else {
-            return K * exp(-r * T) * std::erfc(d2 / sqrt(2));
+            return 0.5  * exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
     }
 
@@ -51,23 +51,30 @@ double BlackScholesPricer::delta() const {
 
     if (option_ -> GetOptionNature() == OptionNature::Vanilla) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return std::erfc(-d1 / sqrt(2));
+            return 0.5 * std::erfc(-d1 / sqrt(2));
         }
         else {
-            return -std::erfc(-d1 / sqrt(2));
+            return -0.5 * std::erfc(-d1 / sqrt(2));
         }
     }
 
     else if (option_ -> GetOptionNature() == OptionNature::Digital) {
         if (option_ -> GetOptionType() == OptionType::Call) {
-            return exp(-r * T) * std::erfc(-d1 / sqrt(2));
+            return 0.5 * exp(-r * T) * std::erfc(-d1 / sqrt(2));
         }
         else {
-            return -exp(-r * T) * std::erfc(d2 / sqrt(2));
+            return 0.5 * exp(-r * T) * std::erfc(d2 / sqrt(2));
         }
     }
     
     else return 0.0;
 }
 
-
+BlackScholesPricer::~BlackScholesPricer()
+{
+    // Release any dynamically allocated memory
+    if (option_ != nullptr)
+    {
+        option_ = nullptr; // Set the pointer to null to prevent double deletion.
+    }
+}

@@ -13,6 +13,7 @@ class BlackScholesPricer{
         friend class VanillaOption;
         friend class Option;
         BlackScholesPricer(Option* option, double asset_price, double interest_rate, double volatility);
+        ~BlackScholesPricer();
         double operator()() const;
         double delta() const;
 
